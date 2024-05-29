@@ -100,7 +100,7 @@ def update_departaments(departament):
     
     update_statement = '''
         UPDATE departaments
-        SET name = ?,
+        SET name = ?
         WHERE id = ?
     '''
     
@@ -138,7 +138,8 @@ def menu():
         print('3. Eliminar datos')
         print('4. Salir\n')
         
-        option = input('Ingrese una opción: \n')
+        option = input('Ingrese una opción: ')
+        print()
         
         match option:
             
@@ -146,37 +147,40 @@ def menu():
                 
                 table = input('¿En qué tabla desea insertar datos?(employees or departaments): ')
                 
-                while True:
-                    if table.lower() in ('e', 'employees'):
-                        
-                        name = input('Nombre: ')
-                        last_name = input('Apellido: ')
+                if table.lower() in ('e', 'employees'):
                         
                         while True:
-                            try:
-                                id_departament = int(input('Id del departamento: '))
-                                break
-                            except ValueError as e:
-                                print('El id del departamento debe ser un número entero.')
-                            
                         
-                        if name != '' and last_name != '' and id_departament != '':
+                            name = input('Nombre: ')
+                            last_name = input('Apellido: ')
                             
-                            employee = (name, last_name, id_departament)
-                            insert_data_employees(employee)
-                            print(f'Empleado {name} agregado con éxito')
-                            break
-                        else:
-                            print('No pueden haber campos sin rellenar.')
+                            while True:
+                                try:
+                                    id_departament = int(input('Id del departamento: '))
+                                    break
+                                except ValueError as e:
+                                    print('El id del departamento debe ser un número entero.')
+                                
+                            
+                            if name != '' and last_name != '' and id_departament != '':
+                                
+                                employee = (name, last_name, id_departament)
+                                insert_data_employees(employee)
+                                print(f'Empleado {name} agregado con éxito')
+                                break
+                            else:
+                                print('No pueden haber campos sin rellenar.')
                 
-                while True:
-                    if table.lower() in ('d', 'departaments'):
+                
+                if table.lower() in ('d', 'departaments'):
+                    
+                    while True:
                         
                         name = input('Nombre: ')
                         
                         if name != '':
-                            if name.isalpha():
-                                departament = (name, last_name, id_departament)
+                            if not name.isnumeric():
+                                departament = (name,)
                                 insert_data_departaments(departament)
                                 print(f'Departamento {name} agregado con éxito')
                                 break
@@ -189,9 +193,10 @@ def menu():
                 
                 table = input('¿Qué tabla desea actualizar?(employees or departaments): ')
                 
-                while True:
                     
-                    if table.lower() in ('e', 'employees'):
+                if table.lower() in ('e', 'employees'):
+                    
+                    while True:
                         
                         id_employee = int(input('Ingrese el id del empleado a actualizar: '))
                         
@@ -215,16 +220,18 @@ def menu():
                         else:
                             print('No pueden haber campos sin rellenar.')
     
-                while True:
+                
                     
-                    if table.lower() in ('d', 'departaments'):
+                if table.lower() in ('d', 'departaments'):
+                    
+                    while True:
                         
                         id_departament = int(input('Ingrese el id del departamento a actualizar: '))
                         
                         name = input('Nombre: ')
                         
                         if name != '':
-                            if name.isalpha():
+                            if not name.isnumeric():
                                 departament = (name, id_departament)
                                 update_departaments(departament)
                                 print(f'Departamento {name} actualizado con éxito')
@@ -238,9 +245,10 @@ def menu():
                 
                     table = input('¿Qué tabla desea eliminar?(employees or departaments): ')
                     
-                    while True:
-                    
-                        if table.lower() in ('e', 'employees'):
+                
+                    if table.lower() in ('e', 'employees'):
+                        
+                        while True:
                             
                             try:
                                 id_employee = int(input('Ingrese el id del empleado a eliminar: '))
@@ -251,15 +259,17 @@ def menu():
                             except ValueError:
                                     print('El id del empleado debe ser un número entero.')
                     
-                    while True:
+            
                     
-                        if table.lower() in ('d', 'departaments'):
+                    if table.lower() in ('d', 'departaments'):
+                        
+                        while True:
                             
                             try:
                                 id_departament = int(input('Ingrese el id del empleado a eliminar: '))
                                 if id_departament != '':
-                                    departament = (id_departament)
-                                    delete_employees(departament)
+                                    departament = (id_departament,)
+                                    delete_departaments(departament)
                                     break
                             except ValueError:
                                     print('El id del empleado debe ser un número entero.')
